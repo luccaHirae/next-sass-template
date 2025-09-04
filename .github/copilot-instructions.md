@@ -43,7 +43,7 @@ This document guides GitHub Copilot to generate code consistently for this proje
 - Use **Tanstack Query** for data fetching and caching
 - Use **React Hook Form** for form handling
 - Use **Zod** for schema validation
-- Keep code modular and consistent with the given file structure
+- Use **PNPM** for package management
 
 ## Features
 

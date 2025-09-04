@@ -18,6 +18,14 @@ This document guides GitHub Copilot to generate code consistently for this proje
 - `lib/` → utilities and helpers
 - `hooks/` → custom React hooks
 
+## Styling
+
+- Use **TailwindCSS** for all styling needs
+- Use **ShadCN/UI** components for consistent UI elements
+- Interface should be responsive and accessible
+- Follow design patterns established in existing components
+- Design should be clean and modern
+
 ## Coding Conventions
 
 - Use **functional components only**
@@ -32,4 +40,12 @@ This document guides GitHub Copilot to generate code consistently for this proje
 - Keep auth-related code aligned with **Better Auth** best practices
 - Implement payment flows using **Stripe**
 - Use **Prisma** schema and client for database access
+- Use **Tanstack Query** for data fetching and caching
+- Use **React Hook Form** for form handling
+- Use **Zod** for schema validation
 - Keep code modular and consistent with the given file structure
+
+## Features
+
+- When implementing features in the `_features.md` file, check off the relevant boxes to indicate completion.
+- Ensure that new features adhere to the project's coding conventions and structure.

@@ -15,6 +15,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { signUp } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
 
 interface ApiError {
   message: string;
@@ -29,11 +30,11 @@ export function RegistrationForm() {
 
   const [submitting, setSubmitting] = React.useState(false);
   const [apiError, setApiError] = React.useState<string | null>(null);
-  const [success, setSuccess] = React.useState(false);
+  const router = useRouter();
 
   async function handleSubmit(values: RegisterInput) {
     setApiError(null);
-    setSuccess(false);
+
     try {
       setSubmitting(true);
       // better-auth signUp expects at least email + password, optionally name
@@ -47,8 +48,8 @@ export function RegistrationForm() {
         setApiError(err.message || 'Registration failed');
         return;
       }
-      setSuccess(true);
       form.reset({ name: '', email: '', password: '', confirmPassword: '' });
+      router.push('/verify-email?email=' + encodeURIComponent(values.email));
     } catch (e: any) {
       setApiError(e?.message || 'Unexpected error. Please try again.');
     } finally {
@@ -135,11 +136,6 @@ export function RegistrationForm() {
           />
           {apiError && (
             <p className='text-sm font-medium text-destructive'>{apiError}</p>
-          )}
-          {success && !apiError && (
-            <p className='text-sm font-medium text-green-600 dark:text-green-500'>
-              Account created! You can now verify your email or sign in.
-            </p>
           )}
         </div>
         <Button type='submit' className='w-full' disabled={disabled}>

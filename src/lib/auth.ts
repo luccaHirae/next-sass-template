@@ -1,6 +1,7 @@
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { prisma } from '@/lib/prisma';
+import { sendEmail } from '@/lib/email';
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -8,6 +9,22 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: true,
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    sendVerificationEmail: async ({ user, url }) => {
+      await sendEmail({
+        to: user.email,
+        subject: 'Verify your email address',
+        text: `Hi ${
+          user.name || ''
+        }\n\nPlease verify your email by clicking the link below:\n${url}\n\nIf you did not create an account, you can ignore this email.`,
+        html: `<p>Hi ${
+          user.name || ''
+        }</p><p>Please verify your email by clicking the link below:</p><p><a href="${url}" target="_blank" rel="noopener noreferrer">Verify Email</a></p><p>If you did not create an account, you can ignore this email.</p>`,
+      });
+    },
   },
   session: {
     cookieCache: {

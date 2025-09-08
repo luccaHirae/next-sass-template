@@ -30,3 +30,11 @@ export const loginSchema = z.object({
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;
+
+export const passwordResetRequestSchema = z.object({
+  email: z.string().email('Please enter a valid email address.'),
+});
+
+export type PasswordResetRequestInput = z.infer<
+  typeof passwordResetRequestSchema
+>;

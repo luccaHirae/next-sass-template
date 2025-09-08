@@ -1,7 +1,7 @@
 | ID        | Feature                           | Description                                                                  | Done |
 | --------- | --------------------------------- | ---------------------------------------------------------------------------- | ---- |
 | auth-1a   | Registration Form UI              | Build a registration form UI with ShadCN components and TailwindCSS styling. | ✅   |
-| auth-1b   | Registration Backend              | Connect registration form to Better Auth and handle responses/errors.        | ❌   |
+| auth-1b   | Registration Backend              | Connect registration form to Better Auth and handle responses/errors.        | ✅   |
 | auth-1c   | Login Form UI                     | Build a login form UI with ShadCN components and TailwindCSS styling.        | ❌   |
 | auth-1d   | Login Backend                     | Connect login form to Better Auth and handle authentication flow.            | ❌   |
 | auth-2a   | Password Reset UI                 | Create a form to request password reset via email.                           | ❌   |

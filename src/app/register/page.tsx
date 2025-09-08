@@ -1,4 +1,5 @@
 import { RegistrationForm } from '@/components/auth/registration-form';
+import Link from 'next/link';
 
 export const metadata = {
   title: 'Register',
@@ -17,10 +18,19 @@ export default function RegisterPage() {
           </p>
         </div>
         <RegistrationForm />
-        <p className='px-2 text-center text-xs text-muted-foreground'>
-          By creating an account you agree to our Terms of Service and Privacy
-          Policy.
-        </p>
+        <div className='space-y-2'>
+          <p className='px-2 text-center text-xs text-muted-foreground'>
+            Already have an account?{' '}
+            <Link href='/login' className='text-primary underline-offset-4 hover:underline'>Sign in</Link>
+          </p>
+          <p className='px-2 text-center text-xs text-muted-foreground'>
+            Forgot your password?{' '}
+            <Link href='/reset-password' className='text-primary underline-offset-4 hover:underline'>Reset it</Link>
+          </p>
+          <p className='px-2 text-center text-xs text-muted-foreground'>
+            By creating an account you agree to our Terms of Service and Privacy Policy.
+          </p>
+        </div>
       </div>
     </div>
   );

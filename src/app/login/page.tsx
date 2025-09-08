@@ -1,4 +1,5 @@
 import { LoginForm } from '@/components/auth/login-form';
+import Link from 'next/link';
 
 export const metadata = {
   title: 'Login',
@@ -17,9 +18,15 @@ export default function LoginPage() {
           </p>
         </div>
         <LoginForm />
-        <p className='px-2 text-center text-xs text-muted-foreground'>
-          Having trouble? Reset your password or contact support.
-        </p>
+        <div className='space-y-2'>
+          <p className='px-2 text-center text-xs text-muted-foreground'>
+            <Link href='/reset-password' className='text-primary underline-offset-4 hover:underline'>Forgot password?</Link>
+          </p>
+          <p className='px-2 text-center text-xs text-muted-foreground'>
+            Don't have an account?{' '}
+            <Link href='/register' className='text-primary underline-offset-4 hover:underline'>Create one</Link>
+          </p>
+        </div>
       </div>
     </div>
   );

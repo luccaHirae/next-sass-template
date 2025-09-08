@@ -14,16 +14,13 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { signUp } from '@/lib/auth-client';
 
-interface RegistrationFormProps {
-  onSubmit?: (values: RegisterInput) => Promise<void> | void;
-  isLoading?: boolean;
+interface ApiError {
+  message: string;
+  fieldErrors?: Record<string, string | undefined>;
 }
-
-export function RegistrationForm({
-  onSubmit,
-  isLoading,
-}: RegistrationFormProps) {
+export function RegistrationForm() {
   const form = useForm<RegisterInput>({
     // Cast due to compatibility nuance between current zod + resolver types
     resolver: zodResolver(registerSchema as any),
@@ -31,17 +28,35 @@ export function RegistrationForm({
   });
 
   const [submitting, setSubmitting] = React.useState(false);
+  const [apiError, setApiError] = React.useState<string | null>(null);
+  const [success, setSuccess] = React.useState(false);
 
   async function handleSubmit(values: RegisterInput) {
+    setApiError(null);
+    setSuccess(false);
     try {
       setSubmitting(true);
-      await onSubmit?.(values);
+      // better-auth signUp expects at least email + password, optionally name
+      const res = await signUp.email({
+        email: values.email,
+        password: values.password,
+        name: values.name,
+      });
+      if (res?.error) {
+        const err: ApiError = res.error as any;
+        setApiError(err.message || 'Registration failed');
+        return;
+      }
+      setSuccess(true);
+      form.reset({ name: '', email: '', password: '', confirmPassword: '' });
+    } catch (e: any) {
+      setApiError(e?.message || 'Unexpected error. Please try again.');
     } finally {
       setSubmitting(false);
     }
   }
 
-  const disabled = submitting || isLoading;
+  const disabled = submitting;
 
   return (
     <Form {...form}>
@@ -118,6 +133,14 @@ export function RegistrationForm({
               </FormItem>
             )}
           />
+          {apiError && (
+            <p className='text-sm font-medium text-destructive'>{apiError}</p>
+          )}
+          {success && !apiError && (
+            <p className='text-sm font-medium text-green-600 dark:text-green-500'>
+              Account created! You can now verify your email or sign in.
+            </p>
+          )}
         </div>
         <Button type='submit' className='w-full' disabled={disabled}>
           {disabled ? 'Creating account...' : 'Create account'}

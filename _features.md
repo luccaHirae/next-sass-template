@@ -4,7 +4,7 @@
 | auth-1b   | Registration Backend              | Connect registration form to Better Auth and handle responses/errors.        | ✅   |
 | auth-1c   | Login Form UI                     | Build a login form UI with ShadCN components and TailwindCSS styling.        | ✅   |
 | auth-1d   | Login Backend                     | Connect login form to Better Auth and handle authentication flow.            | ✅   |
-| auth-2a   | Password Reset UI                 | Create a form to request password reset via email.                           | ❌   |
+| auth-2a   | Password Reset UI                 | Create a form to request password reset via email.                           | ✅   |
 | auth-2b   | Password Reset Backend            | Implement Better Auth integration to send reset emails and validate tokens.  | ❌   |
 | auth-2c   | Email Verification                | Send verification email after registration and handle verification flow.     | ❌   |
 | auth-3a   | Protected Routes Wrapper          | Create a server/client wrapper to protect pages based on user session.       | ❌   |

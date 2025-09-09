@@ -38,3 +38,21 @@ export const passwordResetRequestSchema = z.object({
 export type PasswordResetRequestInput = z.infer<
   typeof passwordResetRequestSchema
 >;
+
+export const newPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(8, 'Password must be at least 8 characters.')
+      .regex(
+        /(?=.*[A-Z])(?=.*[a-z])(?=.*\d)/,
+        'Must contain uppercase, lowercase and a number.'
+      ),
+    confirmPassword: z.string(),
+  })
+  .refine((d) => d.password === d.confirmPassword, {
+    message: 'Passwords do not match.',
+    path: ['confirmPassword'],
+  });
+
+export type NewPasswordInput = z.infer<typeof newPasswordSchema>;

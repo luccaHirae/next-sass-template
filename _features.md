@@ -8,8 +8,8 @@
 | auth-2b   | Password Reset Backend            | Implement Better Auth integration to send reset emails and validate tokens.  | ✅   |
 | auth-2c   | Email Verification                | Send verification email after registration and handle verification flow.     | ✅   |
 | auth-3a   | Protected Routes Wrapper          | Create a server/client wrapper to protect pages based on user session.       | ❌   |
-| auth-4a   | Profile Page UI                   | Build profile page allowing users to update name, avatar, and password.      | ❌   |
-| auth-4b   | Profile Backend                   | Connect profile page to Better Auth to save updates.                         | ❌   |
+| auth-4a   | Profile Page UI                   | Build profile page allowing users to update name, avatar, and password.      | ✅   |
+| auth-4b   | Profile Backend                   | Connect profile page to Better Auth to save updates.                         | ✅   |
 | auth-5a   | Roles Setup                       | Define user roles (user/admin) in Better Auth and database.                  | ❌   |
 | auth-5b   | Role-Based Page Access            | Restrict access to certain pages/components based on roles.                  | ❌   |
 | stripe-1a | Stripe API Integration            | Setup Stripe SDK and API keys in backend.                                    | ❌   |

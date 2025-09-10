@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginInput } from '@/schemas/auth';
@@ -17,6 +18,8 @@ import { Button } from '@/components/ui/button';
 import { signIn } from '@/lib/auth-client';
 
 export function LoginForm() {
+  const search = useSearchParams();
+  const nextUrl = search.get('next') || '/';
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema as any),
     defaultValues: { email: '', password: '' },
@@ -32,7 +35,7 @@ export function LoginForm() {
       const res = await signIn.email({
         email: values.email,
         password: values.password,
-        callbackURL: '/',
+        callbackURL: nextUrl,
       });
       if (res?.error) {
         setApiError((res.error as any)?.message || 'Invalid credentials');

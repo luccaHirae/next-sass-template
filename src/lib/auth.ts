@@ -2,6 +2,8 @@ import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/email';
+import { stripe } from '@better-auth/stripe';
+import { Stripe } from 'stripe';
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -52,4 +54,33 @@ export const auth = betterAuth({
       maxAge: 60 * 60 * 24 * 7, // 7 days
     },
   },
+  plugins: [
+    stripe({
+      stripeClient: new Stripe(process.env.STRIPE_SECRET_KEY!, {
+        apiVersion: '2025-08-27.basil',
+      }),
+      stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
+      createCustomerOnSignUp: true,
+      subscription: {
+        enabled: true,
+        plans: () => {
+          const PRO_PRICE_ID = {
+            default: process.env.STRIPE_PRO_PRICE_ID!,
+            annual: process.env.STRIPE_PRO_ANNUAL_PRICE_ID!,
+          };
+
+          return [
+            {
+              name: 'Pro',
+              priceId: PRO_PRICE_ID.default,
+              annualDiscountPriceId: PRO_PRICE_ID.annual,
+              freeTrial: {
+                days: 7,
+              },
+            },
+          ];
+        },
+      },
+    }),
+  ],
 });

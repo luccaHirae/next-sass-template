@@ -1,3 +1,4 @@
+import { stripeClient } from '@better-auth/stripe/client';
 import { createAuthClient } from 'better-auth/react';
 
 export const {
@@ -13,4 +14,9 @@ export const {
   deleteUser,
 } = createAuthClient({
   baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3000',
+  plugins: [
+    stripeClient({
+      subscription: true,
+    }),
+  ],
 });

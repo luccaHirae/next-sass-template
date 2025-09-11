@@ -15,7 +15,7 @@ export type NavGroup = {
 export const sidebarNav: NavGroup[] = [
   {
     title: 'General',
-    items: [{ title: 'Overview', href: '/dashboard', icon: LayoutGrid }],
+    items: [{ title: 'Overview', href: '/home', icon: LayoutGrid }],
   },
   {
     title: 'Manage',

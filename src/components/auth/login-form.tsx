@@ -19,7 +19,7 @@ import { signIn } from '@/lib/auth-client';
 
 export function LoginForm() {
   const search = useSearchParams();
-  const nextUrl = search.get('next') || '/';
+  const nextUrl = search.get('next') || '/home';
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema as any),
     defaultValues: { email: '', password: '' },

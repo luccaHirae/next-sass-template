@@ -9,6 +9,7 @@ import {
   CardDescription,
   CardContent,
 } from '@/components/ui/card';
+import { PageHeader } from '@/components/dashboard/page-header';
 
 export const metadata = {
   title: 'Settings',
@@ -17,13 +18,11 @@ export const metadata = {
 export default async function SettingsPage() {
   await requireSession('/login');
   return (
-    <div className='mx-auto w-full max-w-5xl space-y-10 px-4 py-8'>
-      <header className='space-y-2'>
-        <h1 className='text-3xl font-semibold tracking-tight'>Settings</h1>
-        <p className='text-sm text-muted-foreground'>
-          Manage your account preferences and security.
-        </p>
-      </header>
+    <div className='mx-auto w-full max-w-5xl space-y-6'>
+      <PageHeader
+        title='Settings'
+        description='Manage your account preferences and security.'
+      />
 
       <div className='grid gap-8 lg:grid-cols-3'>
         <Card className='lg:col-span-2'>

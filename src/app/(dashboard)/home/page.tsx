@@ -1,14 +1,10 @@
+import { PageHeader } from '@/components/dashboard/page-header';
 import * as React from 'react';
 
 export default function DashboardHome() {
   return (
     <div className='space-y-6'>
-      <div>
-        <h1 className='text-2xl font-semibold tracking-tight'>Dashboard</h1>
-        <p className='text-sm text-muted-foreground'>
-          Your overview at a glance.
-        </p>
-      </div>
+      <PageHeader title='Dashboard' description='Your overview at a glance.' />
 
       <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
         <Card title='Users' value='—' />

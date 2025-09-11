@@ -2,11 +2,20 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
+import { useSession, signOut, signIn } from '@/lib/auth-client';
 import { cn } from '@/lib/utils';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Settings, LogOut } from 'lucide-react';
 import { sidebarNav } from '@/config/nav';
 
 interface Props {
@@ -39,16 +48,7 @@ export function DashboardShell({ children }: Props) {
           <Link href='/' className='font-semibold'>
             SaaS
           </Link>
-          <div className='ml-auto flex items-center gap-3'>
-            <div className='hidden sm:block'>
-              <Input placeholder='Search...' className='h-9 w-56' />
-            </div>
-            <Link href='/profile'>
-              <Button variant='outline' className='h-9'>
-                Profile
-              </Button>
-            </Link>
-          </div>
+          <HeaderActions />
         </div>
       </header>
 
@@ -119,6 +119,69 @@ export function DashboardShell({ children }: Props) {
         {/* Main */}
         <main className='min-h-[calc(100dvh-56px)] p-4 md:p-6'>{children}</main>
       </div>
+    </div>
+  );
+}
+
+function HeaderActions() {
+  const { data: session } = useSession();
+  const user = session?.user;
+  const name = user?.name || user?.email || 'User';
+  const initials = name
+    .split(/\s+/)
+    .map((p) => p[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+  const router = useRouter();
+
+  return (
+    <div className='ml-auto flex items-center gap-3'>
+      <div className='hidden sm:block'>
+        <Input placeholder='Search...' className='h-9 w-56' />
+      </div>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant='ghost' className='relative h-9 w-9 rounded-full p-0'>
+            <Avatar className='h-9 w-9'>
+              {user?.image ? <AvatarImage src={user.image} alt={name} /> : null}
+              <AvatarFallback>{initials}</AvatarFallback>
+            </Avatar>
+            <span className='sr-only'>Open user menu</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align='end' className='w-56'>
+          <div className='px-2 py-1.5 text-xs text-muted-foreground'>
+            Signed in as
+            <div className='truncate text-foreground text-sm font-medium'>
+              {name}
+            </div>
+          </div>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <Link href='/settings' className='w-full'>
+              <Settings className='mr-2 h-4 w-4' />
+              Settings
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onSelect={async (e) => {
+              e.preventDefault();
+              await signOut({
+                fetchOptions: {
+                  onSuccess: () => {
+                    router.push('/login');
+                  },
+                },
+              });
+            }}
+          >
+            <LogOut className='mr-2 h-4 w-4' />
+            Sign out
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 }

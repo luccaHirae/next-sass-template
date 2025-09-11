@@ -19,8 +19,8 @@
 | stripe-3b | Subscription Backend              | Update user subscription in database and handle Stripe subscription changes. | ❌   |
 | stripe-4a | Webhook Listener Setup            | Configure Stripe webhooks and handle events (payment succeeded, canceled).   | ❌   |
 | stripe-5a | Billing History UI                | Build a page showing past invoices and subscription details.                 | ❌   |
-| dash-1a   | Dashboard Layout Skeleton         | Create responsive layout with header, sidebar, and main content area.        | ❌   |
-| dash-2a   | Sidebar Navigation UI             | Build sidebar component with links and active state highlighting.            | ❌   |
+| dash-1a   | Dashboard Layout Skeleton         | Create responsive layout with header, sidebar, and main content area.        | ✅   |
+| dash-2a   | Sidebar Navigation UI             | Build sidebar component with links and active state highlighting.            | ✅   |
 | dash-3a   | Settings Page UI                  | Build settings page for account info and billing management.                 | ❌   |
 | dash-4a   | Dark Mode Toggle UI               | Add toggle switch to switch between light/dark mode.                         | ❌   |
 | dash-5a   | Loading Skeleton Components       | Build skeleton components for dashboard, lists, and tables.                  | ❌   |

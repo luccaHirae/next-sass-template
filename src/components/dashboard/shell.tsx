@@ -158,7 +158,7 @@ function HeaderActions() {
             </div>
           </div>
           <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
+          <DropdownMenuItem asChild className='cursor-pointer'>
             <Link href='/settings' className='w-full'>
               <Settings className='mr-2 h-4 w-4' />
               Settings
@@ -176,6 +176,7 @@ function HeaderActions() {
                 },
               });
             }}
+            className='cursor-pointer'
           >
             <LogOut className='mr-2 h-4 w-4' />
             Sign out

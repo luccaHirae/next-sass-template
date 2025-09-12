@@ -3,6 +3,8 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
+import { Menu, X, Settings, LogOut, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -13,9 +15,8 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import { useSession, signOut, signIn } from '@/lib/auth-client';
+import { useSession, signOut } from '@/lib/auth-client';
 import { cn } from '@/lib/utils';
-import { Menu, X, Settings, LogOut } from 'lucide-react';
 import { sidebarNav } from '@/config/nav';
 
 interface Props {
@@ -135,11 +136,25 @@ function HeaderActions() {
     .toUpperCase();
   const router = useRouter();
 
+  const { theme, setTheme } = useTheme();
+
   return (
-    <div className='ml-auto flex items-center gap-3'>
+    <div className='ml-auto flex items-center gap-2 sm:gap-3'>
       <div className='hidden sm:block'>
         <Input placeholder='Search...' className='h-9 w-56' />
       </div>
+      <Button
+        type='button'
+        variant='ghost'
+        size='icon'
+        className='h-9 w-9'
+        aria-label='Toggle theme'
+        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      >
+        <Sun className='h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
+        <Moon className='absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
+        <span className='sr-only'>Toggle theme</span>
+      </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant='ghost' className='relative h-9 w-9 rounded-full p-0'>

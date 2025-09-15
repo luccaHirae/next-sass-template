@@ -1,23 +1,16 @@
 'use client';
+
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { authClient } from '@/lib/auth-client';
-
-const schema = z.object({
-  name: z.string().min(2, 'Name too short'),
-  slug: z
-    .string()
-    .min(2, 'Slug too short')
-    .regex(/^[a-z0-9-]+$/, 'Lowercase letters, numbers and dashes only'),
-  logo: z.string().url('Must be a valid URL').optional().or(z.literal('')),
-});
-
-type Values = z.infer<typeof schema>;
+import {
+  type CreateOrganizationInput,
+  createOrganizationSchema,
+} from '@/schemas/organization';
 
 export function CreateOrganizationForm() {
   const {
@@ -26,9 +19,9 @@ export function CreateOrganizationForm() {
     formState: { errors, isSubmitting },
     setValue,
     watch,
-  } = useForm<Values>({
+  } = useForm<CreateOrganizationInput>({
     // Casting schema due to atypical local zod resolver type inference mismatch
-    resolver: zodResolver(schema as any),
+    resolver: zodResolver(createOrganizationSchema as any),
     defaultValues: { name: '', slug: '', logo: '' },
   });
   const slugValue = watch('slug');
@@ -50,7 +43,7 @@ export function CreateOrganizationForm() {
     }
   }
 
-  async function onSubmit(values: Values) {
+  async function onSubmit(values: CreateOrganizationInput) {
     const { name, slug, logo } = values;
     const { error } = await authClient.organization.create({
       name,

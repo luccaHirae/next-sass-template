@@ -1,4 +1,4 @@
-import { LayoutGrid, Settings, CreditCard } from 'lucide-react';
+import { LayoutGrid, Settings, CreditCard, Building2 } from 'lucide-react';
 
 export type NavItem = {
   title: string;
@@ -21,6 +21,7 @@ export const sidebarNav: NavGroup[] = [
     title: 'Manage',
     items: [
       { title: 'Settings', href: '/settings', icon: Settings },
+      { title: 'Organizations', href: '/organizations', icon: Building2 },
       { title: 'Billing', href: '/billing', icon: CreditCard },
     ],
   },

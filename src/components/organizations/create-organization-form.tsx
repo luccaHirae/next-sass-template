@@ -11,20 +11,21 @@ import {
   type CreateOrganizationInput,
   createOrganizationSchema,
 } from '@/schemas/organization';
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from '@/components/ui/form';
 
 export function CreateOrganizationForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    setValue,
-    watch,
-  } = useForm<CreateOrganizationInput>({
-    // Casting schema due to atypical local zod resolver type inference mismatch
+  const form = useForm<CreateOrganizationInput>({
     resolver: zodResolver(createOrganizationSchema as any),
     defaultValues: { name: '', slug: '', logo: '' },
   });
-  const slugValue = watch('slug');
+  const slugValue = form.watch('slug');
   const [checking, setChecking] = React.useState(false);
 
   async function checkSlug(slug: string) {
@@ -54,55 +55,77 @@ export function CreateOrganizationForm() {
       toast.error(error.message || 'Failed to create organization');
     } else {
       toast.success('Organization created');
-      setValue('name', '');
-      setValue('slug', '');
-      setValue('logo', '');
+      form.reset({ name: '', slug: '', logo: '' });
     }
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className='space-y-4 rounded-lg border p-4'
-    >
-      <div className='space-y-2'>
-        <label className='text-sm font-medium'>Name</label>
-        <Input placeholder='Acme Inc' {...register('name')} />
-        {errors.name && (
-          <p className='text-xs text-destructive'>{errors.name.message}</p>
-        )}
-      </div>
-      <div className='space-y-2'>
-        <label className='text-sm font-medium'>Slug</label>
-        <div className='flex gap-2'>
-          <Input
-            placeholder='acme'
-            {...register('slug')}
-            onBlur={() => checkSlug(slugValue)}
-          />
-          <Button
-            type='button'
-            variant='outline'
-            disabled={checking || !slugValue}
-            onClick={() => checkSlug(slugValue)}
-          >
-            {checking ? 'Checking...' : 'Check'}
-          </Button>
-        </div>
-        {errors.slug && (
-          <p className='text-xs text-destructive'>{errors.slug.message}</p>
-        )}
-      </div>
-      <div className='space-y-2'>
-        <label className='text-sm font-medium'>Logo URL (optional)</label>
-        <Input placeholder='https://...' {...register('logo')} />
-        {errors.logo && (
-          <p className='text-xs text-destructive'>{errors.logo.message}</p>
-        )}
-      </div>
-      <Button type='submit' disabled={isSubmitting} className='w-full'>
-        {isSubmitting ? 'Creating...' : 'Create Organization'}
-      </Button>
-    </form>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className='space-y-6 rounded-lg border p-4'
+      >
+        <FormField
+          control={form.control}
+          name='name'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input placeholder='Acme Inc' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='slug'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Slug</FormLabel>
+              <FormControl>
+                <div className='flex gap-2'>
+                  <Input
+                    placeholder='acme'
+                    {...field}
+                    onBlur={() => checkSlug(field.value)}
+                  />
+                  <Button
+                    type='button'
+                    variant='outline'
+                    disabled={checking || !slugValue}
+                    onClick={() => checkSlug(field.value)}
+                  >
+                    {checking ? 'Checking...' : 'Check'}
+                  </Button>
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='logo'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Logo URL (optional)</FormLabel>
+              <FormControl>
+                <Input placeholder='https://...' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button
+          type='submit'
+          disabled={form.formState.isSubmitting}
+          className='w-full'
+        >
+          {form.formState.isSubmitting ? 'Creating...' : 'Create Organization'}
+        </Button>
+      </form>
+    </Form>
   );
 }

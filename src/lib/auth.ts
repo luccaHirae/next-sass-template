@@ -2,6 +2,7 @@ import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/email';
+import { organization } from 'better-auth/plugins';
 import { stripe } from '@better-auth/stripe';
 import { Stripe } from 'stripe';
 
@@ -55,6 +56,7 @@ export const auth = betterAuth({
     },
   },
   plugins: [
+    organization(),
     stripe({
       stripeClient: new Stripe(process.env.STRIPE_SECRET_KEY!, {
         apiVersion: '2025-08-27.basil',

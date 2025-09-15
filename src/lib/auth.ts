@@ -56,7 +56,20 @@ export const auth = betterAuth({
     },
   },
   plugins: [
-    organization(),
+    organization({
+      organizationLimit: 10,
+      membershipLimit: 100,
+      allowUserToCreateOrganization: true,
+      async sendInvitationEmail(data) {
+        // TODO: implement real invitation email
+        console.log(
+          'Send invitation email to',
+          data.email,
+          'for org',
+          data.organization.name
+        );
+      },
+    }),
     stripe({
       stripeClient: new Stripe(process.env.STRIPE_SECRET_KEY!, {
         apiVersion: '2025-08-27.basil',

@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { authClient } from '@/lib/auth-client';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,14 +12,8 @@ import {
 } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { Loader2, Trash2 } from 'lucide-react';
-
-type Member = {
-  id: string;
-  userId: string;
-  email?: string | null;
-  name?: string | null;
-  role: string;
-};
+import { ROLE_OPTIONS } from '@/constants/organizations';
+import type { Member } from '@/types';
 
 interface Props {
   organizationId?: string;
@@ -28,10 +22,10 @@ interface Props {
 export function OrganizationMembers({ organizationId }: Props) {
   const { data: activeOrg } = authClient.useActiveOrganization();
   const orgId = organizationId || activeOrg?.id;
-  const [members, setMembers] = React.useState<Member[] | null>(null);
-  const [loadingId, setLoadingId] = React.useState<string | null>(null);
+  const [members, setMembers] = useState<Member[] | null>(null);
+  const [loadingId, setLoadingId] = useState<string | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     let ignore = false;
     async function load() {
       if (!orgId) return;
@@ -106,12 +100,6 @@ export function OrganizationMembers({ organizationId }: Props) {
     return <p className='text-sm text-muted-foreground'>No members yet.</p>;
   }
 
-  const roleOptions = [
-    { value: 'owner', label: 'Owner' },
-    { value: 'admin', label: 'Admin' },
-    { value: 'member', label: 'Member' },
-  ];
-
   return (
     <div className='space-y-2'>
       {members.map((m) => (
@@ -133,7 +121,7 @@ export function OrganizationMembers({ organizationId }: Props) {
                 <SelectValue placeholder='Role' />
               </SelectTrigger>
               <SelectContent>
-                {roleOptions.map((r) => (
+                {ROLE_OPTIONS.map((r) => (
                   <SelectItem key={r.value} value={r.value}>
                     {r.label}
                   </SelectItem>

@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { deleteUser } from '@/lib/auth-client';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -25,10 +25,10 @@ export function DeleteAccountForm() {
     resolver: zodResolver(deleteAccountSchema as any),
     defaultValues: { password: '', confirm: false as any },
   });
-  const [delStatus, setDelStatus] = React.useState<
+  const [delStatus, setDelStatus] = useState<
     'idle' | 'deleting' | 'deleted' | 'error'
   >('idle');
-  const [delError, setDelError] = React.useState<string | null>(null);
+  const [delError, setDelError] = useState<string | null>(null);
 
   async function onDeleteAccount(values: DeleteAccountInput) {
     setDelError(null);

@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,7 @@ export function CreateOrganizationForm() {
     defaultValues: { name: '', slug: '', logo: '' },
   });
   const slugValue = form.watch('slug');
-  const [checking, setChecking] = React.useState(false);
+  const [checking, setChecking] = useState(false);
 
   async function checkSlug(slug: string) {
     if (!slug) return;

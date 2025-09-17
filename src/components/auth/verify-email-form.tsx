@@ -1,9 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { sendVerificationEmail } from '@/lib/auth-client';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
 
 export function VerifyEmailForm() {
   const search = useSearchParams();

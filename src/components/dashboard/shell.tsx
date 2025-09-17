@@ -1,8 +1,8 @@
 'use client';
 
-import * as React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { Menu, X, Settings, LogOut, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -25,10 +25,10 @@ interface Props {
 }
 
 export function DashboardShell({ children }: Props) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  React.useEffect(() => {
+  useEffect(() => {
     // close on route change
     setOpen(false);
   }, [pathname]);
@@ -159,7 +159,9 @@ function HeaderActions() {
                 key={o.id}
                 onSelect={async (e) => {
                   e.preventDefault();
-                  await authClient.organization.setActive({ organizationId: o.id });
+                  await authClient.organization.setActive({
+                    organizationId: o.id,
+                  });
                 }}
               >
                 <span className='truncate'>{o.name}</span>

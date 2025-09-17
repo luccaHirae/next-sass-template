@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema, type RegisterInput } from '@/schemas/auth';
@@ -28,8 +28,8 @@ export function RegistrationForm() {
     defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
   });
 
-  const [submitting, setSubmitting] = React.useState(false);
-  const [apiError, setApiError] = React.useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
   const router = useRouter();
 
   async function handleSubmit(values: RegisterInput) {

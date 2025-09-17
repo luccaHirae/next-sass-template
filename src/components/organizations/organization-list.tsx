@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
 import { authClient } from '@/lib/auth-client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,10 +10,10 @@ import { Loader2, Trash2, Pencil } from 'lucide-react';
 export function OrganizationList() {
   const { data: orgs, refetch } = authClient.useListOrganizations();
   const { data: activeOrg } = authClient.useActiveOrganization();
-  const [editingId, setEditingId] = React.useState<string | null>(null);
-  const [editName, setEditName] = React.useState('');
-  const [editSlug, setEditSlug] = React.useState('');
-  const [loading, setLoading] = React.useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editName, setEditName] = useState('');
+  const [editSlug, setEditSlug] = useState('');
+  const [loading, setLoading] = useState<string | null>(null);
 
   async function setActive(id: string) {
     const { error } = await authClient.organization.setActive({

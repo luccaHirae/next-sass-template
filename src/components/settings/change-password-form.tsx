@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { changePassword } from '@/lib/auth-client';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -28,10 +28,10 @@ export function ChangePasswordForm() {
       confirmPassword: '',
     },
   });
-  const [pwStatus, setPwStatus] = React.useState<
+  const [pwStatus, setPwStatus] = useState<
     'idle' | 'saving' | 'saved' | 'error'
   >('idle');
-  const [pwError, setPwError] = React.useState<string | null>(null);
+  const [pwError, setPwError] = useState<string | null>(null);
   async function onChangePassword(values: ChangePasswordInput) {
     setPwError(null);
     setPwStatus('saving');

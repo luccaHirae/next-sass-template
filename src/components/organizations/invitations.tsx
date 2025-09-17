@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { authClient } from '@/lib/auth-client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,11 +14,11 @@ interface Props {
 export function OrganizationInvitations({ organizationId }: Props) {
   const { data: activeOrg } = authClient.useActiveOrganization();
   const orgId = organizationId || activeOrg?.id;
-  const [invites, setInvites] = React.useState<any[] | null>(null);
-  const [email, setEmail] = React.useState('');
-  const [loading, setLoading] = React.useState(false);
+  const [invites, setInvites] = useState<any[] | null>(null);
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     let ignore = false;
     async function load() {
       if (!orgId) return;

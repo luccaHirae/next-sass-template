@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import {
   type UpdateProfileInput,
   updateProfileSchema,
@@ -28,14 +28,14 @@ export function UpdateProfileForm() {
     defaultValues: { name: user?.name || '', image: user?.image || '' },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     profileForm.reset({ name: user?.name || '', image: user?.image || '' });
   }, [user?.name, user?.image]);
 
-  const [profileStatus, setProfileStatus] = React.useState<
+  const [profileStatus, setProfileStatus] = useState<
     'idle' | 'saving' | 'saved' | 'error'
   >('idle');
-  const [profileError, setProfileError] = React.useState<string | null>(null);
+  const [profileError, setProfileError] = useState<string | null>(null);
 
   async function onUpdateProfile(values: UpdateProfileInput) {
     setProfileError(null);

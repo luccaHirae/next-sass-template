@@ -16,6 +16,7 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { useSession, signOut } from '@/lib/auth-client';
+import { authClient } from '@/lib/auth-client';
 import { cn } from '@/lib/utils';
 import { sidebarNav } from '@/config/nav';
 
@@ -126,6 +127,8 @@ export function DashboardShell({ children }: Props) {
 
 function HeaderActions() {
   const { data: session } = useSession();
+  const { data: activeOrg } = authClient.useActiveOrganization();
+  const { data: orgs } = authClient.useListOrganizations();
   const user = session?.user;
   const name = user?.name || user?.email || 'User';
   const initials = name
@@ -143,6 +146,31 @@ function HeaderActions() {
       <div className='hidden sm:block'>
         <Input placeholder='Search...' className='h-9 w-56' />
       </div>
+      {activeOrg && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='outline' className='h-9 max-w-[180px] truncate'>
+              {activeOrg.name}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end' className='w-64'>
+            {orgs?.map((o: any) => (
+              <DropdownMenuItem
+                key={o.id}
+                onSelect={async (e) => {
+                  e.preventDefault();
+                  await authClient.organization.setActive({ organizationId: o.id });
+                }}
+              >
+                <span className='truncate'>{o.name}</span>
+                {o.id === activeOrg.id ? (
+                  <span className='ml-auto text-xs text-primary'>Active</span>
+                ) : null}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
       <Button
         type='button'
         variant='ghost'
